@@ -9,6 +9,8 @@ const port = 5000 || process.env.PORT;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+
+//using public files
 app.use(express.static('public'));
 
 //templating engine
@@ -16,9 +18,9 @@ app.use(expresLayouts);
 app.set('layout','./layouts/main');
 app.set('view engine','ejs');
 
-app.get('/',(req,res)=>{
-    res.render('index');
-})
+// To access all the routes
+app.use('/',require('./server/routes/index'))
+app.use('/about',require('./server/routes/index'))
 
 app.listen(port,()=>{
     console.log(`server is running on port ${port}`);
