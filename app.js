@@ -21,6 +21,15 @@ app.set('view engine','ejs');
 // To access all the routes
 app.use('/',require('./server/routes/index'))
 app.use('/about',require('./server/routes/index'))
+app.use('/about',require('./server/routes/dashboard'))
+
+
+
+
+// handle 404
+app.use('*',(req,res)=>{
+   res.render('404');
+})
 
 app.listen(port,()=>{
     console.log(`server is running on port ${port}`);

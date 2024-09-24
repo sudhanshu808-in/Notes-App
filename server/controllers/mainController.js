@@ -5,7 +5,10 @@ exports.homepage = async(req,res)=>{
         description : "This is the home page of our site"
     };
 
-    res.render('index',locals);
+    res.render('index',{
+        locals,
+        layout : '../views/layouts/front-page'
+    });
 }
 
 //about
