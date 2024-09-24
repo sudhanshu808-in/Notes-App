@@ -20,8 +20,8 @@ app.set('view engine','ejs');
 
 // To access all the routes
 app.use('/',require('./server/routes/index'))
-app.use('/about',require('./server/routes/index'))
-app.use('/about',require('./server/routes/dashboard'))
+app.use('/',require('./server/routes/index'))
+app.use('/',require('./server/routes/dashboard'))
 
 
 
