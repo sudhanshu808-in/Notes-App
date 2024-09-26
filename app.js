@@ -11,8 +11,8 @@ const port = 5000 || process.env.PORT;
 
 app.use(session({
     secret : 'shubham singh',
-    resave : false,
-    saveUninitialized : true,
+    resave : false, //If false, session won't be saved back to the store if it hasn't been modified.
+    saveUninitialized : true, // When false, it won't create a session until something is stored in it.
     store :  MongoStore.create({
         mongoUrl:process.env.MONGODB_URI
     })
