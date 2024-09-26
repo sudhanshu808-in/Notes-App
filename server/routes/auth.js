@@ -32,4 +32,15 @@ router.get('/login-failure',(req,res)=>{
 })
 
 
+//persist user data after authentication
+passport.serializeUser(function(user,done){
+    done(null,user.id);
+})
+
+// retriving data from sessions
+passport.deserializeUser(function(id,done){
+User.findById(id,function(err,user){
+    done(err,user);
+})
+})
 module.exports = router;
