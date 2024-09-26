@@ -15,7 +15,7 @@ exports.homepage = async (req, res) => {
   
   
   /**
-   * GET /
+   * GET / 
    * About 
   */
   exports.about = async (req, res) => {
