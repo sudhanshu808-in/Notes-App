@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const dashboardcontroller = require('../controllers/dashboardcontroller');
-
-router.get('/dashboard',dashboardcontroller.dashboard);
+const { isLoggedIn }=require('../middleware/chechAuth');
+router.get('/dashboard',isLoggedIn,dashboardcontroller.dashboard);
 
 module.exports = router;
 

@@ -15,7 +15,8 @@ app.use(session({
     saveUninitialized : true, // When false, it won't create a session until something is stored in it.
     store :  MongoStore.create({
         mongoUrl:process.env.MONGODB_URI
-    })
+    }),
+    cookie : {maxAge : new Date (Date.now()+(604800000))} // cookies for 7 days 
 }));
 
 
