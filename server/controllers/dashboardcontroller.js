@@ -177,3 +177,67 @@ exports.dashboardViewNote=async(req,res)=>{
     res.send("404 not found.....");
   }
 } 
+
+exports.dashboardDeleteNote= async(req,res)=>{
+
+try {
+  await Note.deleteOne({_id : req.params.id }).where({user : req.user.id});
+res.redirect('/dashboard');
+
+} catch (error) {
+  console.log(error);
+  
+}
+}
+
+exports.dashboardAddNote= async(req,res)=>{
+res.render("dashboard/add" , {
+
+  layout : '../views/layouts/dashboard',
+});
+}
+
+exports.dashboardAddNoteSubmit=async(req,res)=>{
+  try {
+    req.body.user = req.user.id;
+    await Note.create(req.body);
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.log("wtf is going on ");
+    
+  }
+}
+
+
+exports.dashboardSearch= (req,res)=>{
+  try {
+    res.render('/dashboard/search',{
+      searchResults :  ' ',
+      layout : '../views/layouts/dashboard',
+       })
+  } catch (error) {
+    
+  }
+}
+
+
+exports.dashboardSearchSubmit = async (req, res) => {
+  try {
+    let searchTerm = req.body.searchTerm;
+    const searchNoSpecialChars = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    const searchResults = await Note.find({
+      $or: [
+        { title: { $regex: new RegExp(searchNoSpecialChars, "i") } },
+        { body: { $regex: new RegExp(searchNoSpecialChars, "i") } },
+      ],
+    }).where({ user: req.user.id });
+
+    res.render("dashboard/search", {
+      searchResults,
+      layout: "../views/layouts/dashboard",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
