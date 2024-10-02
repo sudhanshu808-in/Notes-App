@@ -10,13 +10,13 @@ const app = express();
 const port = 5000 || process.env.PORT;
 
 app.use(session({
-    secret : 'shubham singh',
-    resave : false, //If false, session won't be saved back to the store if it hasn't been modified.
-    saveUninitialized : true, // When false, it won't create a session until something is stored in it.
-    store :  MongoStore.create({
-        mongoUrl:process.env.MONGODB_URI
+    secret: 'shubham singh',
+    resave: false, // If false, session won't be saved back to the store if it hasn't been modified.
+    saveUninitialized: true, // When false, it won't create a session until something is stored in it.
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI
     }),
-    cookie : {maxAge : new Date (Date.now()+(604800000))} // cookies for 7 days 
+    cookie: { maxAge: 604800000 } // 7 days in milliseconds (7 * 24 * 60 * 60 * 1000)
 }));
 
 

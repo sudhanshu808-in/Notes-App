@@ -19,19 +19,19 @@ exports.dashboard = async (req, res) => {
     // Mongoose "^7.0.0 Update
     const notes = await Note.aggregate([
       { $sort: { updatedAt: -1 } },
-      { $match: { user: mongoose.Types.ObjectId(req.user.id) } },
+      { $match: { user: new mongoose.Types.ObjectId(req.user.id) } },
       {
         $project: {
           title: { $substr: ["$title", 0, 30] },
           body: { $substr: ["$body", 0, 100] },
         },
       }
-      ])
+    ])
     .skip(perPage * page - perPage)
     .limit(perPage)
     .exec(); 
 
-    const count = await Note.count();
+    const count = await Note.countDocuments({ user: req.user.id }); // Use countDocuments instead of count
 
     res.render('dashboard/index', {
       userName: req.user.firstName,
@@ -41,33 +41,6 @@ exports.dashboard = async (req, res) => {
       current: page,
       pages: Math.ceil(count / perPage)
     });
- 
-    // Original Code
-    // Note.aggregate([
-    //   { $sort: { updatedAt: -1 } },
-    //   { $match: { user: mongoose.Types.ObjectId(req.user.id) } },
-    //   {
-    //     $project: {
-    //       title: { $substr: ["$title", 0, 30] },
-    //       body: { $substr: ["$body", 0, 100] },
-    //     },
-    //   },
-    // ])
-    //   .skip(perPage * page - perPage)
-    //   .limit(perPage)
-    //   .exec(function (err, notes) {
-    //     Note.count().exec(function (err, count) {
-    //       if (err) return next(err);
-    //       res.render("dashboard/index", {
-    //         userName: req.user.firstName,
-    //         locals,
-    //         notes,
-    //         layout: "../views/layouts/dashboard",
-    //         current: page,
-    //         pages: Math.ceil(count / perPage),
-    //       });
-    //     });
-    //   });
 
   } catch (error) {
     console.log(error);
@@ -183,4 +156,10 @@ exports.dashboardSearchSubmit = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-}; 
+};
+
+
+
+exports.dashboardViewNote=async(req,res)=>{
+  
+}
